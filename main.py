@@ -11,9 +11,7 @@ load_dotenv()
 
 # Initialize MCP server
 mcp = FastMCP(
-    name="Dune Analytics MCP Server",
-    description="Dune Analytics tools",
-    dependencies=["httpx", "pandas", "python-dotenv"]
+    name="Dune Analytics MCP Server"
 )
 
 # Configuration
