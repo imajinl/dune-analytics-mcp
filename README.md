@@ -1,12 +1,13 @@
 # Dune Analytics MCP Server
 
-A Model Context Protocol (MCP) server that provides AI agents with access to Dune Analytics data.
+A Model Context Protocol (MCP) server that gives Claude access to Dune Analytics data for querying blockchain analytics.
 
 ## Setup
 
 ### Prerequisites
 - Python 3.13+
 - Dune Analytics API key
+- Claude Desktop app
 
 ### Installation
 
@@ -41,12 +42,42 @@ Create a `.env` file in the project root:
 DUNE_API_KEY=your_api_key_here
 ```
 
-**5. Run the server:**
-```bash
-python main.py
+**5. Configure Claude Desktop:**
+
+Add this to your Claude Desktop MCP configuration file:
+
+**Mac:** `~/Library/Application Support/Claude/claude_desktop_config.json`
+**Windows:** `%APPDATA%/Claude/claude_desktop_config.json`
+
+```json
+{
+  "mcpServers": {
+    "dune-analytics": {
+      "command": "python",
+      "args": ["/path/to/your/dune-analytics-mcp/main.py"],
+      "env": {
+        "DUNE_API_KEY": "your_api_key_here"
+      }
+    }
+  }
+}
 ```
 
-## Tools
+Replace `/path/to/your/dune-analytics-mcp/main.py` with the actual path to your main.py file.
 
-- `get_latest_result(query_id)` - Get latest results for a Dune query
-- `run_query(query_id)` - Execute a query and return results
+**6. Restart Claude Desktop** to load the MCP server.
+
+## Usage
+
+Once configured, Claude will have access to these Dune Analytics tools. You can ask Claude to:
+
+- "Get the latest results from Dune query 12345"
+- "Run query 67890 and show me the data"
+- "Fetch data from my Dune dashboard query"
+
+## Available Tools
+
+- `get_latest_result(query_id)` - Get latest cached results for a Dune query
+- `run_query(query_id)` - Execute a query and return fresh results
+
+Both tools return data in CSV format that Claude can analyze and visualize.
